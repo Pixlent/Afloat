@@ -24,9 +24,9 @@ public class TeleportCommand extends Command {
         playerArgument.setCallback((sender, exception) -> {
             final var message = Component
                     .text(exception.getInput())
-                    .color(ColorPresets.RED.toTextColor())
+                    .color(ColorPresets.OLD_RED.toTextColor())
                     .append(Component.text(" is not a player"))
-                            .color(ColorPresets.YELLOW.toTextColor());
+                            .color(ColorPresets.OLD_YELLOW.toTextColor());
 
             sender.sendMessage(message);
         });
@@ -39,9 +39,9 @@ public class TeleportCommand extends Command {
             if (target == null) {
                 final var message = Component
                         .text(targetUsername)
-                        .color(ColorPresets.RED.toTextColor())
+                        .color(ColorPresets.OLD_RED.toTextColor())
                         .append(Component.text(" is not a player"))
-                        .color(ColorPresets.YELLOW.toTextColor());
+                        .color(ColorPresets.OLD_YELLOW.toTextColor());
                 player.sendMessage(message);
                 return;
             }
@@ -49,16 +49,16 @@ public class TeleportCommand extends Command {
             if (targetUsername.equals(player.getUsername())) {
                 final var message = Component
                         .text("You cannot teleport to yourself")
-                        .color(ColorPresets.RED.toTextColor());
+                        .color(ColorPresets.OLD_RED.toTextColor());
                 player.sendMessage(message);
                 return;
             }
 
             player.teleport(target.getPosition());
             final var message = Component.text("You teleported to ")
-                            .color(ColorPresets.YELLOW.toTextColor())
+                            .color(ColorPresets.OLD_YELLOW.toTextColor())
                                     .append(Component.text(targetUsername))
-                                            .color(ColorPresets.RED.toTextColor());
+                                            .color(ColorPresets.OLD_RED.toTextColor());
 
             player.sendMessage(message);
 

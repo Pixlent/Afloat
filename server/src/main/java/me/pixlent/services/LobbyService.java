@@ -3,14 +3,13 @@ package me.pixlent.services;
 import me.pixlent.ColorPresets;
 import me.pixlent.phasemachine.Service;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
-import net.minestom.server.command.builder.arguments.ArgumentType;
-import net.minestom.server.entity.Entity;
+import net.minestom.server.coordinate.Vec;
+import net.minestom.server.entity.ItemEntity;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.entity.EntitySpawnEvent;
-import org.jetbrains.annotations.NotNull;
-
-import java.util.Set;
+import net.minestom.server.event.item.ItemDropEvent;
+import net.minestom.server.event.item.PickupItemEvent;
+import net.minestom.server.utils.time.TimeUnit;
 
 // todo add a scoreboard and stuff
 public class LobbyService implements Service {
@@ -30,9 +29,9 @@ public class LobbyService implements Service {
             final var players = context.level().getPlayers();
             players.forEach(player1 -> player1.sendMessage(
                     Component.text(player.getUsername())
-                            .color(ColorPresets.YELLOW.toTextColor()).append(
+                            .color(ColorPresets.BRIGHT_BLUE.toTextColor()).append(
                                     Component.text(" has joined (" + players.size() + "/" + tempMaxPlayers + ")")
-                                            .color(ColorPresets.GREEN.toTextColor()))));
+                                            .color(ColorPresets.LIGHT_BLUE.toTextColor()))));
         });
     }
 
