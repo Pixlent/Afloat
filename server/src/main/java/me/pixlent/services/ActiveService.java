@@ -8,6 +8,7 @@ public class ActiveService implements Service {
         // Teleport all the players to the center / boxes
         // Start a grace period
         // Start a countdown until the players are released
+        // Fill all the chests
         // Death match countdown
 
 

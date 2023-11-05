@@ -12,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Set;
 
-//todo add a scoreboard and stuff
+// todo add a scoreboard and stuff
 public class LobbyService implements Service {
     @Override
     public void start(Context context) {

@@ -2,10 +2,18 @@ package me.pixlent;
 
 import me.pixlent.commands.GamemodeCommand;
 import me.pixlent.commands.TeleportCommand;
+import me.pixlent.phasemachine.LevelFactory;
+import me.pixlent.services.LobbyService;
+import me.pixlent.services.MapService;
+import me.pixlent.services.StartupService;
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
+import net.minestom.server.event.player.PlayerChatEvent;
 import net.minestom.server.event.player.PlayerLoginEvent;
-import net.minestom.server.instance.block.Block;
+
+import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,15 +24,27 @@ public class Main {
 
         registerCommands();
 
-        final var instance = MinecraftServer.getInstanceManager().createInstanceContainer();
+        final var level = new LevelFactory()
+                .addPhase(List.of(new MapService(), new StartupService()))
+                .addPhase(List.of(new LobbyService()))
+                .build();
 
-        instance.setGenerator(unit -> {
-            unit.modifier().fillHeight(0, 10, Block.STONE);
-        });
+        MinecraftServer.getInstanceManager().registerInstance(level);
+
+        Combat.handle(MinecraftServer.getGlobalEventHandler());
 
         MinecraftServer.getGlobalEventHandler().addListener(PlayerLoginEvent.class, event -> {
-            event.setSpawningInstance(instance);
-            event.getPlayer().setRespawnPoint(new Pos(0, 10, 0));
+            event.setSpawningInstance(level);
+            event.getPlayer().setRespawnPoint(new Pos(146, 139, 277));
+            event.getPlayer().setPermissionLevel(4);
+        });
+
+        MinecraftServer.getGlobalEventHandler().addListener(PlayerChatEvent.class, event -> {
+            final var miniMessage = MiniMessage.miniMessage();
+
+            Component message = miniMessage.deserialize("<c>");
+
+            event.setCancelled(true);
         });
 
         /*

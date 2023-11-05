@@ -1,7 +1,8 @@
 package me.pixlent.phasemachine;
 
+import org.jetbrains.annotations.Nullable;
+
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
 public class ServiceManager {
@@ -11,7 +12,14 @@ public class ServiceManager {
         this.services = services;
     }
 
-    public <T extends Service> T getService(Class<T> serviceOfT) {
+    /**
+     * Get the service T
+     *
+     * @param serviceOfT The service requested
+     * @return The service requested; may be null
+     * @param <T> The service requested
+     */
+    public @Nullable <T extends Service> T getService(Class<T> serviceOfT) {
         final var returnService = new AtomicReference<T>();
 
         services.forEach(service -> {
@@ -19,15 +27,5 @@ public class ServiceManager {
         });
 
         return returnService.get();
-    }
-
-    public boolean hasService(Class<? extends Service> serviceOfT) {
-        final var present = new AtomicBoolean();
-
-        services.forEach(service -> {
-            if (service.getClass().equals(serviceOfT)) present.set(true);
-        });
-
-        return present.get();
     }
 }

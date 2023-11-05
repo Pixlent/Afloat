@@ -48,13 +48,8 @@ public final class Level extends InstanceContainer {
         }
 
         if (currentPhase >= builder.getPhases().size()) {
-            final var message = Component.text("Instance out of scope; all phases complete").color(ColorPresets.RED.toTextColor());
-            this.getPlayers().forEach(player -> player.kick(message));
-            Guard.tryCatch("Couldn't unregister instance", ()
-                    -> MinecraftServer.getSchedulerManager().scheduleTask(()
-                    -> MinecraftServer.getInstanceManager().unregisterInstance(this),
-                    TaskSchedule.seconds(1), TaskSchedule.stop()));
-
+            terminate(Component.text("Instance out of scope; all phases complete")
+                    .color(ColorPresets.RED.toTextColor()));
             return;
         }
 
@@ -69,6 +64,14 @@ public final class Level extends InstanceContainer {
         phase.services().forEach(service -> service.start(context));
     }
 
+    public void terminate(Component reason) {
+        this.getPlayers().forEach(player -> player.kick(reason));
+        Guard.tryCatch("Couldn't unregister instance", ()
+                -> MinecraftServer.getSchedulerManager().scheduleTask(()
+                        -> MinecraftServer.getInstanceManager().unregisterInstance(this),
+                TaskSchedule.seconds(1), TaskSchedule.stop()));
+    }
+
     private record ServiceContext(Level level,
                                   EventNode<InstanceEvent> node, int phaseIndex, List<Service> services)
             implements Service.Context {
@@ -81,6 +84,11 @@ public final class Level extends InstanceContainer {
         @Override
         public <T> void setTag(@NotNull Tag<T> tag, @Nullable T value) {
             level.handler.setTag(tag, value);
+        }
+
+        @Override
+        public ServiceManager serviceManager() {
+            return new ServiceManager(services);
         }
 
         @Override

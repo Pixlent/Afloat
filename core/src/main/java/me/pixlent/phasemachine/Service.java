@@ -12,6 +12,7 @@ public interface Service {
     interface Context extends TagReadable, TagWritable {
         Level level();
         EventNode<InstanceEvent> node();
+        ServiceManager serviceManager();
 
         /**
          * Stops this phase (including stopping all other services) and starts the next phase
