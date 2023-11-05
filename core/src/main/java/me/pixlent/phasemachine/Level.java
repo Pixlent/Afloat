@@ -1,11 +1,16 @@
 package me.pixlent.phasemachine;
 
+import me.pixlent.ColorPresets;
+import me.pixlent.Guard;
+import net.kyori.adventure.text.Component;
+import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.EventFilter;
 import net.minestom.server.event.EventNode;
 import net.minestom.server.event.trait.InstanceEvent;
 import net.minestom.server.instance.InstanceContainer;
 import net.minestom.server.tag.Tag;
 import net.minestom.server.tag.TagHandler;
+import net.minestom.server.timer.TaskSchedule;
 import net.minestom.server.world.DimensionType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -43,8 +48,13 @@ public final class Level extends InstanceContainer {
         }
 
         if (currentPhase >= builder.getPhases().size()) {
-            // no more phases
-            System.out.println("All phases complete");
+            final var message = Component.text("Instance out of scope; all phases complete").color(ColorPresets.RED.toTextColor());
+            this.getPlayers().forEach(player -> player.kick(message));
+            Guard.tryCatch("Couldn't unregister instance", ()
+                    -> MinecraftServer.getSchedulerManager().scheduleTask(()
+                    -> MinecraftServer.getInstanceManager().unregisterInstance(this),
+                    TaskSchedule.seconds(1), TaskSchedule.stop()));
+
             return;
         }
 

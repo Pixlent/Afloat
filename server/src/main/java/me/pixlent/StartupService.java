@@ -7,6 +7,7 @@ import net.minestom.server.event.entity.EntitySpawnEvent;
 public class StartupService implements Service {
     @Override
     public void start(Context context) {
+
         context.node().addListener(EntitySpawnEvent.class, event -> {
             if (!(event.getEntity() instanceof Player player)) return;
 

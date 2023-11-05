@@ -16,7 +16,7 @@ public final class LevelFactory {
         return this;
     }
 
-    public Level build() {
+    public @NotNull Level build() {
         final var level = new Level(this);
 
         MinecraftServer.getInstanceManager().registerInstance(level);
