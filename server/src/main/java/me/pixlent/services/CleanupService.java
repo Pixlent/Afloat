@@ -1,4 +1,4 @@
-package me.pixlent;
+package me.pixlent.services;
 
 import me.pixlent.phasemachine.Service;
 

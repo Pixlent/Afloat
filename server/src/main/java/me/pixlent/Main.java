@@ -1,6 +1,10 @@
 package me.pixlent;
 
 import me.pixlent.phasemachine.LevelFactory;
+import me.pixlent.services.ActiveService;
+import me.pixlent.services.CleanupService;
+import me.pixlent.services.LobbyService;
+import me.pixlent.services.StartupService;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.entity.GameMode;
@@ -19,9 +23,10 @@ public class Main {
         server.start("0.0.0.0", 25565);
 
         final var level = new LevelFactory()
-                .addPhase(List.of(new StartupService()))
-                .addPhase(List.of(new WaitingService()))
-                .addPhase(List.of(new CleanupService()))
+                //.addPhase(List.of(new StartupService()))
+                .addPhase(List.of(new LobbyService()))
+                //.addPhase(List.of(new ActiveService()))
+                //.addPhase(List.of(new CleanupService()))
                 .build();
 
         level.setGenerator(unit ->
