@@ -18,6 +18,7 @@ subprojects {
     dependencies {
         compileOnly("org.projectlombok:lombok:${project.property("lombok_version")}")
         annotationProcessor("org.projectlombok:lombok:${project.property("lombok_version")}")
-        implementation("org.slf4j:slf4j-nop:2.0.9")
+        implementation("ch.qos.logback:logback-core:1.3.5")
+        implementation("ch.qos.logback:logback-classic:1.3.5")
     }
 }
