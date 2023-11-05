@@ -1,4 +1,4 @@
-package me.pixlent;
+package me.pixlent.common;
 
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;

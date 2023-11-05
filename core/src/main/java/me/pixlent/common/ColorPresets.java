@@ -1,4 +1,4 @@
-package me.pixlent;
+package me.pixlent.common;
 
 import net.kyori.adventure.text.format.TextColor;
 

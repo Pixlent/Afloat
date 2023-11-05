@@ -1,6 +1,6 @@
 package me.pixlent.commands;
 
-import me.pixlent.ColorPresets;
+import me.pixlent.common.ColorPresets;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.builder.Command;

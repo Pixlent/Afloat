@@ -2,7 +2,9 @@ package me.pixlent;
 
 import me.pixlent.commands.GamemodeCommand;
 import me.pixlent.commands.TeleportCommand;
+import me.pixlent.phasemachine.Level;
 import me.pixlent.phasemachine.LevelFactory;
+import me.pixlent.phasemachine.LevelManager;
 import me.pixlent.services.LobbyService;
 import me.pixlent.services.MapService;
 import me.pixlent.services.StartupService;
@@ -12,6 +14,7 @@ import net.minestom.server.MinecraftServer;
 import net.minestom.server.coordinate.Pos;
 import net.minestom.server.event.player.PlayerChatEvent;
 import net.minestom.server.event.player.PlayerLoginEvent;
+import net.minestom.server.extras.MojangAuth;
 
 import java.util.List;
 
@@ -24,28 +27,30 @@ public class Main {
 
         registerCommands();
 
+        final var levelManager = LevelManager.hook();
+
+        final var hook = GameManager.hook();
         final var level = new LevelFactory()
                 .addPhase(List.of(new MapService(), new StartupService()))
                 .addPhase(List.of(new LobbyService()))
                 .build();
+        hook.createGame(level);
 
         MinecraftServer.getInstanceManager().registerInstance(level);
 
         Combat.handle(MinecraftServer.getGlobalEventHandler());
 
         MinecraftServer.getGlobalEventHandler().addListener(PlayerLoginEvent.class, event -> {
+            if (!level.isJoinable()) {
+                event.getPlayer().kick("bye");
+            }
+
             event.setSpawningInstance(level);
             event.getPlayer().setRespawnPoint(new Pos(146, 139, 277));
             event.getPlayer().setPermissionLevel(4);
         });
 
-        MinecraftServer.getGlobalEventHandler().addListener(PlayerChatEvent.class, event -> {
-            final var miniMessage = MiniMessage.miniMessage();
-
-            Component message = miniMessage.deserialize("<c>");
-
-            event.setCancelled(true);
-        });
+        MojangAuth.init();
 
         /*
          * Start and hook the minecraft server

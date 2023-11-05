@@ -1,15 +1,10 @@
 package me.pixlent.services;
 
-import me.pixlent.ColorPresets;
+import me.pixlent.common.ColorPresets;
 import me.pixlent.phasemachine.Service;
 import net.kyori.adventure.text.Component;
-import net.minestom.server.coordinate.Vec;
-import net.minestom.server.entity.ItemEntity;
 import net.minestom.server.entity.Player;
 import net.minestom.server.event.entity.EntitySpawnEvent;
-import net.minestom.server.event.item.ItemDropEvent;
-import net.minestom.server.event.item.PickupItemEvent;
-import net.minestom.server.utils.time.TimeUnit;
 
 // todo add a scoreboard and stuff
 public class LobbyService implements Service {

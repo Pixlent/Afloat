@@ -1,15 +1,12 @@
 package me.pixlent.commands;
 
-import me.pixlent.ColorPresets;
+import me.pixlent.common.ColorPresets;
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.format.TextColor;
-import net.minestom.server.MinecraftServer;
 import net.minestom.server.command.builder.Command;
 import net.minestom.server.command.builder.arguments.ArgumentEnum;
 import net.minestom.server.command.builder.arguments.ArgumentType;
 import net.minestom.server.entity.GameMode;
 import net.minestom.server.entity.Player;
-import net.minestom.server.timer.TaskSchedule;
 
 public class GamemodeCommand extends Command {
     public GamemodeCommand() {

@@ -1,7 +1,7 @@
 package me.pixlent.phasemachine;
 
-import me.pixlent.ColorPresets;
-import me.pixlent.Guard;
+import me.pixlent.common.ColorPresets;
+import me.pixlent.common.Guard;
 import net.kyori.adventure.text.Component;
 import net.minestom.server.MinecraftServer;
 import net.minestom.server.event.EventFilter;
@@ -25,6 +25,7 @@ public final class Level extends InstanceContainer {
     private final TagHandler handler = TagHandler.newHandler();
     private int currentPhase = 0;
     private EventNode<InstanceEvent> eventNode = null;
+    private boolean joinable = true;
 
     Level(LevelFactory builder) {
         super(UUID.randomUUID(), DimensionType.OVERWORLD);
@@ -70,6 +71,14 @@ public final class Level extends InstanceContainer {
                 -> MinecraftServer.getSchedulerManager().scheduleTask(()
                         -> MinecraftServer.getInstanceManager().unregisterInstance(this),
                 TaskSchedule.seconds(1), TaskSchedule.stop()));
+    }
+
+    public void setJoinable(boolean canJoin) {
+        joinable = canJoin;
+    }
+
+    public boolean isJoinable() {
+        return joinable;
     }
 
     private record ServiceContext(Level level,
